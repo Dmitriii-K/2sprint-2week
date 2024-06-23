@@ -12,8 +12,6 @@ const imailPattern = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/;
 const loginPattern = /^[a-zA-Z0-9_-]*$/;
 
 
-export const bearerAuth = (req: Request, res: Response) => {};
-
 export const commentsValidation = [
   body("content")
   .isString()
@@ -228,6 +226,9 @@ export const authMiddleware = (
 };
 const buff2 = Buffer.from(SETTINGS.ADMIN, "utf8");
 export const codedAuth = buff2.toString("base64");
+
+export const bearerAuth = (req: Request, res: Response) => {};
+
 
 export const halper = (query: {
   [key: string]: string | number | undefined;

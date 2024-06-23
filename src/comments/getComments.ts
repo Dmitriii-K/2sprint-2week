@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
 import { CommentViewModel, CommentDBType } from "../input-output-types/posts-type";
-import { postCollection } from "../db/mongo-db";
+import { commentCollection } from "../db/mongo-db";
 import { ComId } from "../input-output-types/eny-type";
 import { mapComment } from "../posts/getCommentByPostId";
 import { ObjectId } from "mongodb";
@@ -9,7 +9,7 @@ export const getComment = async (req: Request<ComId>, res: Response<CommentDBTyp
     try {
         const id = new ObjectId(req.params.id);
 
-        const comment = await postCollection.findOne({_id:id});
+        const comment = await commentCollection.findOne({_id:id});
         if (comment) {
             const findComment = mapComment(comment);
             res.status(200).json(findComment);

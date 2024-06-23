@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import { userCollection } from "../db/mongo-db";
+import { commentCollection } from "../db/mongo-db";
 import { ComId } from "../input-output-types/eny-type";
 import { ObjectId } from "mongodb";
 
@@ -7,7 +7,7 @@ import { ObjectId } from "mongodb";
 export const deleteComment = async (req: Request<ComId>, res: Response) => {
     try {
         const id = new ObjectId(req.params.id);
-        const deleteComment = await userCollection.deleteOne({ _id: id });
+        const deleteComment = await commentCollection.deleteOne({ _id: id });
         if (deleteComment.deletedCount === 1) {
           res.sendStatus(204);
         } else {

@@ -13,7 +13,7 @@ export const authUser = async (
 ) => {
   try {
   const loginOrEmail = req.body.loginOrEmail;
-   const password = req.body.password;
+  const password = req.body.password;
 
     const authUser: WithId<UserDBModel> | null = await userCollection.findOne({ $or: [{ login: loginOrEmail }, { email: loginOrEmail }] });
     if (!authUser) {
