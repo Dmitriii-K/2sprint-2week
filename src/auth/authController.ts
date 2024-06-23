@@ -1,14 +1,15 @@
 import { Request, Response } from "express";
-import { LoginInputModel } from "../input-output-types/auth-type";
+import { LoginInputModel, LoginSuccessViewModel } from "../input-output-types/auth-type";
 import { userCollection } from "../db/mongo-db";
 import { UserDBModel } from "../input-output-types/users-type";
+import { OutputErrorsType } from "../input-output-types/output-errors-type";
 import { WithId } from "mongodb";
 const  bcrypt  = require ( 'bcryptjs' ); 
 
 
 export const authUser = async (
   req: Request<any, any, LoginInputModel>,
-  res: Response
+  res: Response<LoginSuccessViewModel | OutputErrorsType>
 ) => {
   try {
   const loginOrEmail = req.body.loginOrEmail;
@@ -30,6 +31,6 @@ export const authUser = async (
   }
 };
 
-204;
+200;!
 400;
 401;

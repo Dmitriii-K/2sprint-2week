@@ -11,6 +11,19 @@ const urlPattern =
 const imailPattern = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/;
 const loginPattern = /^[a-zA-Z0-9_-]*$/;
 
+
+export const bearerAuth = (req: Request, res: Response) => {};
+
+export const commentsValidation = [
+  body("content")
+  .isString()
+  .trim()
+  .not()
+  .isEmpty()
+  .isLength({min: 20, max: 300 })
+  .withMessage("content hav incorrect values"),
+];
+
 export const authCheckValidation = [
   body("loginOrEmail")
   .isString()
@@ -242,5 +255,18 @@ export const userPagination = (query: {
       : "desc",
     searchLoginTerm: query.searchLoginTerm ? query.searchLoginTerm : null,
     searchEmailTerm: query.searchEmailTerm ? query.searchEmailTerm : null,
+  };
+};
+
+export const commentsPagination = (query: {
+  [key: string]: string | number | undefined;
+}): any => {
+  return {
+    pageNumber: query.pageNumber ? +query.pageNumber : 1,
+    pageSize: query.pageSize ? +query.pageSize : 10,
+    sortBy: query.sortBy ? query.sortBy : "createdAt",
+    sortDirection: query.sortDirection
+      ? (query.sortDirection as SortDirection)
+      : "desc",
   };
 };

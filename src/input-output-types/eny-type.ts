@@ -12,3 +12,7 @@ export type BlogPostInputModel = {
 export type BlgId = {
   id: string;
 };
+
+export type ComId = {
+  id: string;
+}

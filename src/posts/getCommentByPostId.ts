@@ -1,0 +1,46 @@
+import { Request, Response } from "express";
+import { postCollection } from "../db/mongo-db";
+import { CommentViewModel, PaginatorCommentViewModelDB, PstId, TypePostHalper, CommentDBType, PostDbType } from "../input-output-types/posts-type";
+import { commentsPagination } from "../middlewares/middlewareForAll";
+import { WithId } from "mongodb";
+
+
+export const mapComment = (comment: WithId<CommentDBType>): CommentViewModel => {
+    return {
+        id: comment._id.toString(),
+        content: comment.content,
+        createdAt: comment.createdAt,
+        commentatorInfo: comment.commentatorInfo,
+    };
+};
+
+export const getCommentByPostId = async (req:Request<PstId, {},{},TypePostHalper>, res:Response<PaginatorCommentViewModelDB>) => {
+    try {
+        const id = req.params.id;
+        const queryParams = commentsPagination(req.query);
+        const items: WithId<PostDbType>[] = await postCollection
+          .find({ postId: id })
+          .sort(queryParams.sortBy, queryParams.sortDirection)
+          .skip((queryParams.pageNumber - 1) * queryParams.pageSize)
+          .limit(queryParams.pageSize)
+          .toArray();
+        if (items.length < 1) {
+          res.sendStatus(404);
+          return;
+        }
+        const totalCount = await postCollection.countDocuments({ postId: id });
+        const newComment: PaginatorCommentViewModelDB = {
+          pagesCount: Math.ceil(totalCount / queryParams.pageSize),
+          page: queryParams.pageNumber,
+          pageSize: queryParams.pageSize,
+          totalCount,
+          items: items.map(mapComment),
+        };
+        res.status(200).json(newComment);
+      } catch (error) {
+        console.log(error);
+      }
+};
+
+200
+404

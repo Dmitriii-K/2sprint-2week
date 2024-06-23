@@ -1,5 +1,5 @@
 import { SETTINGS } from "../settings";
-import { PostDbType } from "../input-output-types/posts-type";
+import { PostDbType, CommentDBType } from "../input-output-types/posts-type";
 import { BlogDbType } from "../input-output-types/blogs-type";
 import { UserDBModel } from "../input-output-types/users-type";
 import { Collection, Db, MongoClient, ObjectId } from "mongodb";
@@ -18,6 +18,9 @@ export let postCollection: Collection<PostDbType> = db.collection<PostDbType>(
 export let userCollection: Collection<UserDBModel> = db.collection<UserDBModel>(
   SETTINGS.USER_COLLECTION_NAME
 );
+export let commentCollection: Collection<CommentDBType> = db.collection<CommentDBType>(
+  SETTINGS.COMMENT_COLLECTION_NAME
+);
 
 // проверка подключения к бд
 export const connectDB = async () => {
@@ -28,6 +31,7 @@ export const connectDB = async () => {
     postCollection = db.collection(SETTINGS.POST_COLLECTION_NAME);
     blogCollection = db.collection(SETTINGS.BLOG_COLLECTION_NAME);
     userCollection = db.collection(SETTINGS.USER_COLLECTION_NAME);
+    commentCollection = db.collection(SETTINGS.COMMENT_COLLECTION_NAME);
 
     await client.connect();
     console.log("connected to db");

@@ -1,5 +1,9 @@
 import { ObjectId } from "mongodb";
 
+export type PstId = {
+  id: string;
+};
+
 export type PostInputModel = {
   title: string;
   shortDescription: string;
@@ -40,4 +44,35 @@ export type TypePostHalper = {
   sortDirection: string;
   pageNumber: number;
   pageSize: number;
+};
+
+export type CommentInputModel = {
+  content:	string;
+};
+
+export type CommentatorInfo = {
+  userId:	string;
+  userLogin:	string;
+};
+
+export type CommentViewModel = {
+id:string;
+content:	string;
+createdAt:	string;
+commentatorInfo: CommentatorInfo;
+};
+
+export type CommentDBType = {
+  _id?: ObjectId;
+  content:	string;
+  createdAt:	string;
+  commentatorInfo: CommentatorInfo;
+  }
+
+export type PaginatorCommentViewModelDB = {
+pagesCount:	number;
+page:	number;
+pageSize:	number;
+totalCount:	number;
+items: CommentViewModel[];
 };
