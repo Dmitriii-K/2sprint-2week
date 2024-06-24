@@ -10,5 +10,7 @@ userId:	string;
 };
 
 export type LoginSuccessViewModel = {
-  accessToken:	string;
+  accessToken: {
+    token: string;
+  };
 }

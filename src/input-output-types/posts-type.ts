@@ -76,3 +76,9 @@ pageSize:	number;
 totalCount:	number;
 items: CommentViewModel[];
 };
+export type TypeCommentPagination = {
+  sortBy: string;
+  sortDirection: string;
+  pageNumber: number;
+  pageSize: number;
+};

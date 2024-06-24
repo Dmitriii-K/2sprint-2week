@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import { postCollection } from "../db/mongo-db";
+import { postCollection, commentCollection } from "../db/mongo-db";
 import { CommentInputModel, CommentViewModel, PstId,CommentDBType, CommentatorInfo } from "../input-output-types/posts-type";
 import { ObjectId } from "mongodb";
 
@@ -20,7 +20,7 @@ export const createCommentByPostId = async (req:Request<PstId,{}, CommentInputMo
                 userLogin: ,
             },
         };
-        const newCommentDB = await postCollection.insertOne(newComment);
+        const newCommentDB = await commentCollection.insertOne(newComment);
         if(newCommentDB) {
             const mapComment = {
                 id: newCommentDB.insertedId,

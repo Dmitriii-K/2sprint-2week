@@ -29,14 +29,14 @@ export const getCommentByPostId = async (req:Request<PstId, {},{},TypePostHalper
           return;
         }
         const totalCount = await postCollection.countDocuments({ postId: id });
-        const newComment: PaginatorCommentViewModelDB = {
+        const getComment: PaginatorCommentViewModelDB = {
           pagesCount: Math.ceil(totalCount / queryParams.pageSize),
           page: queryParams.pageNumber,
           pageSize: queryParams.pageSize,
           totalCount,
           items: items.map(mapComment),
         };
-        res.status(200).json(newComment);
+        res.status(200).json(getComment);
       } catch (error) {
         console.log(error);
       }

@@ -4,7 +4,7 @@ import { SETTINGS } from "../settings";
 import { blogCollection, userCollection } from "../db/mongo-db";
 import { ObjectId } from "mongodb";
 import { SortDirection } from "../input-output-types/eny-type";
-import { TypeUserPagination } from "../input-output-types/users-type";
+import { jwtService } from "../auth/jwtToken";
 
 const urlPattern =
   /^https:\/\/([a-zA-Z0-9_-]+\.)+[a-zA-Z0-9_-]+(\/[a-zA-Z0-9_-]+)*\/?$/;
@@ -227,7 +227,19 @@ export const authMiddleware = (
 const buff2 = Buffer.from(SETTINGS.ADMIN, "utf8");
 export const codedAuth = buff2.toString("base64");
 
-export const bearerAuth = (req: Request, res: Response) => {};
+export const bearerAuth = (req: Request, res: Response, next: NextFunction) => {
+if(!req.headers.authorization) {
+    res.status(401).json({});
+    return;
+  };
+  const token = req.headers.authorization.split(" ")[1];
+  const userId = jwtService.getUserIdByToken(token);
+  if(userId) {
+    req.user = await userServise.findUserById(userId);
+    next();
+  }
+  res.send(401).json({});
+};
 
 
 export const halper = (query: {
