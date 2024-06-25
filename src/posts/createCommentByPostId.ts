@@ -16,8 +16,8 @@ export const createCommentByPostId = async (req:Request<PstId,{}, CommentInputMo
             content:	req.body.content,
             createdAt:	createDate,
             commentatorInfo: { 
-                userId:	,
-                userLogin: ,
+                userId:	req.user!._id,
+                userLogin: req.user!.login,
             },
         };
         const newCommentDB = await commentCollection.insertOne(newComment);
@@ -26,7 +26,10 @@ export const createCommentByPostId = async (req:Request<PstId,{}, CommentInputMo
                 id: newCommentDB.insertedId,
                 content: req.body.content,
                 createdAd: createDate,
-                commentatorInfo: ,
+                commentatorInfo: { 
+                    userId:	req.user!._id,
+                    userLogin: req.user!.login,
+                },
             };
             res.status(201).json(mapComment);
         } else {

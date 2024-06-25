@@ -3,7 +3,7 @@ import { UserDBModel } from "./users-type"
 declare global {
     namespace Express {
         export interface Request {
-            userId: string | null
+            user: UserDBModel | null
         }
     }
 }
@@ -11,7 +11,7 @@ declare global {
 declare global {
     namespace Express {
         export interface Locals {
-            userId?: string | null
+            user: UserDBModel | null
         }
     }
 }
