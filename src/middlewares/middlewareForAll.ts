@@ -4,7 +4,7 @@ import { SETTINGS } from "../settings";
 import { blogCollection, userCollection } from "../db/mongo-db";
 import { ObjectId } from "mongodb";
 import { SortDirection } from "../input-output-types/eny-type";
-import { jwtService } from "../auth/jwtToken";
+import { jwtService } from "../adapters/jwtToken";
 
 const urlPattern =
   /^https:\/\/([a-zA-Z0-9_-]+\.)+[a-zA-Z0-9_-]+(\/[a-zA-Z0-9_-]+)*\/?$/;
@@ -233,12 +233,13 @@ if(!req.headers.authorization) {
     return;
   };
   const token = req.headers.authorization.split(" ")[1];
-  const userId = jwtService.getUserIdByToken(token);
-  if(userId) {
-    req.user = await userServise.findUserById(userId);
+  const user = jwtService.getUserIdByToken(token);
+  if(user) {
+    req.userId = user;
     next();
+  } else {
+    res.status(401).json({});
   }
-  res.send(401).json({});
 };
 
 

@@ -10,8 +10,8 @@ declare global {
 
 declare global {
     namespace Express {
-        export interface Request {
-            user: UserDBModel | null
+        export interface Locals {
+            userId?: string | null
         }
     }
 }

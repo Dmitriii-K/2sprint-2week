@@ -5,7 +5,7 @@ import { UserDBModel } from "../input-output-types/users-type";
 import { OutputErrorsType } from "../input-output-types/output-errors-type";
 import { WithId } from "mongodb";
 const  bcrypt  = require ( 'bcryptjs' ); 
-import { jwtService } from "./jwtToken";
+import { jwtService } from "../adapters/jwtToken";
 
 
 export const authUser = async (

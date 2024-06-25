@@ -17,11 +17,11 @@ async generateToken (user: UserDBModel) {
   return {token};
 },
 async getUserIdByToken (token:string) {
-try {
+    try {
     const result = jwt.verify(token, SETTINGS.SECRET_KEY);
-    return new ObjectId(result.userId)
-} catch (error) {
-    return null;
-}
-}
+      return new ObjectId(result.userId)
+    } catch (error) {
+        return null;
+      }
+  }
 }
