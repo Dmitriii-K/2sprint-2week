@@ -20,8 +20,7 @@ async generateToken (user: UserDBModel) {
 },
 async getUserIdByToken (token:string) {
     try {
-    const result = jwt.verify(token, SETTINGS.JWT_SECRET_KEY);
-      return new ObjectId(result.userId)
+    return jwt.verify(token, SETTINGS.JWT_SECRET_KEY);
     } catch (error) {
         return null;
       }

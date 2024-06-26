@@ -227,15 +227,17 @@ export const authMiddleware = (
 const buff2 = Buffer.from(SETTINGS.ADMIN, "utf8");
 export const codedAuth = buff2.toString("base64");
 
-export const bearerAuth = (req: Request, res: Response, next: NextFunction) => {
+export const bearerAuth = async (req: Request, res: Response, next: NextFunction) => {
 if(!req.headers.authorization) {
     res.status(401).json({});
     return;
   };
   const token = req.headers.authorization.split(" ")[1];
-  const user = jwtService.getUserIdByToken(token);
+  const payload = await jwtService.getUserIdByToken(token);
+
+  const user = await userQueryRepo.findById(payload.userId);
   if(user) {
-    req.user._id = user;
+    req.user = user;
     next();
   } else {
     res.status(401).json({});

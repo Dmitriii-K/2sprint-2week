@@ -20,8 +20,8 @@ export const authUser = async (
     if (!authUser) {
       res.status(401).json({ errorsMessages: [{field: 'user', message: 'user not found'}] });
     } else {
-      const token = await jwtService.generateToken(authUser);
-      res.status(200).json({token});
+      const{ token: accessToken } = await jwtService.generateToken(authUser);
+      res.status(200).json({accessToken});
     };
   const isCorrect = await bcrypt.compare( password, authUser?.password);
     if(isCorrect) {
