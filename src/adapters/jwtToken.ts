@@ -2,12 +2,18 @@ import { Request, Response } from 'express';
 import  jwt from 'jsonwebtoken';
 import { SETTINGS } from '../settings';
 import { UserDBModel } from '../input-output-types/users-type';
-import { ObjectId } from 'mongodb';
+import { ObjectId, WithId } from 'mongodb';
+
+export type AccessPayloadType  = {
+  userId: string;
+  email: string,
+    login: string,
+}
 
 export const jwtService = {
-async generateToken (user: UserDBModel) {
-  const payload = {
-    userId: user._id,
+ generateToken (user: WithId<UserDBModel>) {
+  const payload: AccessPayloadType = {
+    userId: user._id!.toString(),
     email: user.email,
     login: user.login,
   };
@@ -18,9 +24,9 @@ async generateToken (user: UserDBModel) {
   const token:string = jwt.sign(payload, secretKey, options);
   return {token};
 },
-async getUserIdByToken (token:string) {
+getUserIdByToken (token:string) : AccessPayloadType | null {
     try {
-    return jwt.verify(token, SETTINGS.JWT_SECRET_KEY);
+    return jwt.verify(token, SETTINGS.JWT_SECRET_KEY) as AccessPayloadType;
     } catch (error) {
         return null;
       }

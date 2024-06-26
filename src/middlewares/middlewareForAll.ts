@@ -2,10 +2,11 @@ import { Response, Request, NextFunction } from "express";
 import { body, validationResult, query, param } from "express-validator";
 import { SETTINGS } from "../settings";
 import { blogCollection, userCollection, commentCollection } from "../db/mongo-db";
-import { ObjectId } from "mongodb";
+import { ObjectId, WithId } from "mongodb";
 import { SortDirection } from "../input-output-types/eny-type";
 import { jwtService } from "../adapters/jwtToken";
 import { getUserInformation } from "../auth/getController";
+import { UserDBModel } from "../input-output-types/users-type";
 
 const urlPattern =
   /^https:\/\/([a-zA-Z0-9_-]+\.)+[a-zA-Z0-9_-]+(\/[a-zA-Z0-9_-]+)*\/?$/;
@@ -235,13 +236,15 @@ if(!req.headers.authorization) {
   };
   const token = req.headers.authorization.split(" ")[1];
   const payload = await jwtService.getUserIdByToken(token);
+  if(!payload) return res.sendStatus(401);
 
-  const user = await userCollection.find(payload.userId);
+  const user : WithId<UserDBModel> | null= await userCollection.findOne({ _id : new ObjectId(payload.userId)}); // todo вынести в репо
   if(user) {
-    req.user?._id = user;
+    req.user._id = user._id;
     next();
+    return
   } else {
-    res.status(401).json({});
+    return res.status(401).json({});
   }
 };
 

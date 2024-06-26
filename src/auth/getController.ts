@@ -5,9 +5,8 @@ import { userCollection } from "../db/mongo-db";
 
 export const getUserInformation = async (req: Request, res: Response<MeViewModel>) => {
     try {
-        const userMe = req.user;
-        const userInform: MeViewModel = await userCollection.find(userMe);
-        res.status(200).json(userInform);
+        const userMe: MeViewModel = {email: req.user.email, login: req.user.login, userId: req.user._id?.toString()};
+        res.status(200).json(userMe);
     } catch (error) {
         console.log(error);
     }
