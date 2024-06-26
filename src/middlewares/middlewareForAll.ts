@@ -1,10 +1,11 @@
 import { Response, Request, NextFunction } from "express";
 import { body, validationResult, query, param } from "express-validator";
 import { SETTINGS } from "../settings";
-import { blogCollection, userCollection } from "../db/mongo-db";
+import { blogCollection, userCollection, commentCollection } from "../db/mongo-db";
 import { ObjectId } from "mongodb";
 import { SortDirection } from "../input-output-types/eny-type";
 import { jwtService } from "../adapters/jwtToken";
+import { getUserInformation } from "../auth/getController";
 
 const urlPattern =
   /^https:\/\/([a-zA-Z0-9_-]+\.)+[a-zA-Z0-9_-]+(\/[a-zA-Z0-9_-]+)*\/?$/;
@@ -235,9 +236,9 @@ if(!req.headers.authorization) {
   const token = req.headers.authorization.split(" ")[1];
   const payload = await jwtService.getUserIdByToken(token);
 
-  const user = await userQueryRepo.findById(payload.userId);
+  const user = await userCollection.find(payload.userId);
   if(user) {
-    req.user = user;
+    req.user?._id = user;
     next();
   } else {
     res.status(401).json({});

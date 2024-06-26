@@ -12,7 +12,7 @@ export const createCommentByPostId = async (req:Request<PstId,{}, CommentInputMo
           return;
         };
         const createDate = new Date().toISOString();
-        const newComment = {
+        const newComment: CommentDBType = {
             postId: req.params.id,
             content:	req.body.content,
             createdAt:	createDate,
@@ -23,12 +23,12 @@ export const createCommentByPostId = async (req:Request<PstId,{}, CommentInputMo
         };
         const newCommentDB = await commentCollection.insertOne(newComment);
         if(newCommentDB) {
-            const mapComment: CommentDBType = {
-                id: newCommentDB.insertedId,
+            const mapComment: CommentViewModel = {
+                id: newCommentDB.insertedId.toString(),
                 content: req.body.content,
-                createdAd: createDate,
+                createdAt: createDate,
                 commentatorInfo: { 
-                    userId:	req.user!._id!.toHexString(),
+                    userId:	req.user!._id!.toString(),
                     userLogin: req.user!.login,
                 },
             };

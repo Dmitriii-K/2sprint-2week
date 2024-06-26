@@ -64,6 +64,7 @@ commentatorInfo: CommentatorInfo;
 
 export type CommentDBType = {
   _id?: ObjectId;
+  postId?: string;
   content:	string;
   createdAt:	string;
   commentatorInfo: CommentatorInfo;

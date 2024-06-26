@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import { postCollection } from "../db/mongo-db";
+import { postCollection, commentCollection } from "../db/mongo-db";
 import { CommentViewModel, PaginatorCommentViewModelDB, PstId, TypePostHalper, CommentDBType, PostDbType } from "../input-output-types/posts-type";
 import { commentsPagination } from "../middlewares/middlewareForAll";
 import { WithId } from "mongodb";
@@ -18,7 +18,7 @@ export const getCommentByPostId = async (req:Request<PstId, {},{},TypePostHalper
     try {
         const id = req.params.id;
         const queryParams = commentsPagination(req.query);
-        const items: WithId<PostDbType>[] = await postCollection
+        const items: WithId<CommentDBType>[] = await commentCollection
           .find({ postId: id })
           .sort(queryParams.sortBy, queryParams.sortDirection)
           .skip((queryParams.pageNumber - 1) * queryParams.pageSize)
@@ -28,7 +28,7 @@ export const getCommentByPostId = async (req:Request<PstId, {},{},TypePostHalper
           res.sendStatus(404);
           return;
         }
-        const totalCount = await postCollection.countDocuments({ postId: id });
+        const totalCount = await commentCollection.countDocuments({ postId: id });
         const getComment: PaginatorCommentViewModelDB = {
           pagesCount: Math.ceil(totalCount / queryParams.pageSize),
           page: queryParams.pageNumber,
