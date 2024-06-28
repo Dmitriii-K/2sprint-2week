@@ -18,6 +18,7 @@ export const getComment = async (req: Request<ComId>, res: Response<CommentDBTyp
           }
     } catch (error) {
         console.log(error);
+        res.sendStatus(404)
     }
 };
 

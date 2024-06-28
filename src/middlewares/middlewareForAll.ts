@@ -240,12 +240,12 @@ if(!req.headers.authorization) {
 
   const user : WithId<UserDBModel> | null= await userCollection.findOne({ _id : new ObjectId(payload.userId)}); 
   if(user) {
-    console.log(user);
-    req.user._id = user._id;
+    console.log(user._id);
+    req.user = {_id:user._id, login: user.login};
     next();
     return
   } else {
-    return res.status(403).json({});
+    return res.status(401).json({});
   }
 };
 

@@ -15,6 +15,7 @@ export const deleteComment = async (req: Request<ComId>, res: Response) => {
         }
       } catch (error) {
         console.log(error);
+        res.sendStatus(404);
       }
 };
 

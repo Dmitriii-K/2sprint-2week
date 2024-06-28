@@ -26,6 +26,7 @@ export const updateComment = async (req:Request<ComId, {}, CommentInputModel>, r
         return;
       } catch (error) {
         console.log(error);
+        res.sendStatus(404)
       }
 };
 
