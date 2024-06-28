@@ -1,9 +1,8 @@
 import { Request, Response } from "express";
-import { postCollection, commentCollection } from "../db/mongo-db";
+import { commentCollection } from "../db/mongo-db";
 import { CommentViewModel, PaginatorCommentViewModelDB, PstId, TypePostHalper, CommentDBType, PostDbType } from "../input-output-types/posts-type";
 import { commentsPagination } from "../middlewares/middlewareForAll";
 import { WithId } from "mongodb";
-
 
 export const mapComment = (comment: WithId<CommentDBType>): CommentViewModel => {
     return {
@@ -41,6 +40,3 @@ export const getCommentByPostId = async (req:Request<PstId, {},{},TypePostHalper
         console.log(error);
       }
 };
-
-200
-404

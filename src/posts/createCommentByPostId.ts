@@ -40,8 +40,3 @@ export const createCommentByPostId = async (req:Request<PstId,{}, CommentInputMo
         console.log(error);
     }
 };
-
-201
-400
-401
-404

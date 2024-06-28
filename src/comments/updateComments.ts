@@ -5,7 +5,6 @@ import { OutputErrorsType } from "../input-output-types/output-errors-type";
 import { commentCollection } from "../db/mongo-db";
 import { ObjectId } from "mongodb";
 
-
 export const updateComment = async (req:Request<ComId, {}, CommentInputModel>, res:Response<CommentViewModel | OutputErrorsType>) => {
     try {
         const id = new ObjectId(req.params.id);
@@ -13,7 +12,11 @@ export const updateComment = async (req:Request<ComId, {}, CommentInputModel>, r
         if (!findComment) {
           res.sendStatus(404);
         } else {
-          const comment = await commentCollection.updateOne(
+          if (req.user._id.toString() !== findComment.commentatorInfo.userId.toString()) {
+            res.sendStatus(403); 
+            return; 
+          }
+          await commentCollection.updateOne(
             { _id: id },
             {
               $set: {
@@ -29,9 +32,3 @@ export const updateComment = async (req:Request<ComId, {}, CommentInputModel>, r
         res.sendStatus(404)
       }
 };
-
-204
-400
-401
-403
-404

@@ -29,17 +29,7 @@ export const authUser = async (
         res.status(401).json({ errorsMessages: [{field: 'password and login', message: 'password or login is wrong'}] });
       }
   };
-
   } catch (error) {
     console.log(error);
   }
 };
-
-
-// const{ token: accessToken } = await jwtService.generateToken(authUser);
-// res.status(200).json({accessToken});
-
-
-200;!
-400;
-401;

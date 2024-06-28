@@ -29,7 +29,6 @@ export const createBlogController = async (
         isMembership: false,
         id: newBlogBD.insertedId,
       };
-
       res.status(201).json(mapNewBlog);
     } else {
       res.sendStatus(500);

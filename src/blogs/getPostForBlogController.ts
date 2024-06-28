@@ -8,7 +8,6 @@ import { BlgId } from "../input-output-types/eny-type";
 import { TypePostForBlogHalper } from "../input-output-types/blogs-type";
 import { postCollection } from "../db/mongo-db";
 import { WithId } from "mongodb";
-import { ObjectId } from "mongodb";
 import { postsMap } from "../posts/getPostsController";
 import { halper } from "../middlewares/middlewareForAll";
 

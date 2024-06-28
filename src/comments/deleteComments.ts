@@ -3,13 +3,18 @@ import { commentCollection } from "../db/mongo-db";
 import { ComId } from "../input-output-types/eny-type";
 import { ObjectId } from "mongodb";
 
-
 export const deleteComment = async (req: Request<ComId>, res: Response) => {
     try {
         const id = new ObjectId(req.params.id);
-        const deleteComment = await commentCollection.deleteOne({ _id: id });
-        if (deleteComment.deletedCount === 1) {
+        const foundComment = await commentCollection.findOne({ _id: id });
+        if (foundComment) {
+          if (req.user._id.toString() !== foundComment.commentatorInfo.userId.toString()) {
+            res.sendStatus(403); 
+            return; 
+          }
+          await commentCollection.deleteOne({ _id: id });
           res.sendStatus(204);
+          return;
         } else {
           res.sendStatus(404);
         }
@@ -18,7 +23,3 @@ export const deleteComment = async (req: Request<ComId>, res: Response) => {
         res.sendStatus(404);
       }
 };
-
-204
-401/403
-404

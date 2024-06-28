@@ -11,5 +11,4 @@ export const getUserInformation = async (req: Request, res: Response<MeViewModel
     } catch (error) {
         console.log(error);
     }
-
 };

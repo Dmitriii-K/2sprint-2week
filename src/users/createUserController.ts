@@ -44,7 +44,3 @@ export const createUserController = async (
     console.log(error);
   }
 };
-
-201;
-400;
-401;

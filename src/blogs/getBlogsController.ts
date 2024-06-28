@@ -24,7 +24,6 @@ export const getBlogsController = async (
   req: Request<any, any, any, TypeBlogHalper>,
   res: Response<PaginatorBlogViewModel>
 ) => {
-  //const {pageNumber, pagesCount} = req.query
   const queryParams = halper(req.query);
   const search = req.query.searchNameTerm
     ? { name: { $regex: req.query.searchNameTerm, $options: "i" } }

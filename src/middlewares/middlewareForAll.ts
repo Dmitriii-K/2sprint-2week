@@ -5,14 +5,12 @@ import { blogCollection, userCollection, commentCollection } from "../db/mongo-d
 import { ObjectId, WithId } from "mongodb";
 import { SortDirection } from "../input-output-types/eny-type";
 import { jwtService } from "../adapters/jwtToken";
-import { getUserInformation } from "../auth/getController";
 import { UserDBModel } from "../input-output-types/users-type";
 
 const urlPattern =
   /^https:\/\/([a-zA-Z0-9_-]+\.)+[a-zA-Z0-9_-]+(\/[a-zA-Z0-9_-]+)*\/?$/;
 const imailPattern = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/;
 const loginPattern = /^[a-zA-Z0-9_-]*$/;
-
 
 export const commentsValidation = [
   body("content")
@@ -240,7 +238,6 @@ if(!req.headers.authorization) {
 
   const user : WithId<UserDBModel> | null= await userCollection.findOne({ _id : new ObjectId(payload.userId)}); 
   if(user) {
-    console.log(user._id);
     req.user = {_id:user._id, login: user.login};
     next();
     return
@@ -248,7 +245,6 @@ if(!req.headers.authorization) {
     return res.status(401).json({});
   }
 };
-
 
 export const halper = (query: {
   [key: string]: string | number | undefined;
