@@ -23,9 +23,9 @@ export const SETTINGS = {
   BLOG_COLLECTION_NAME: process.env.BLOG_COLLECTION_NAME || "",
   POST_COLLECTION_NAME: process.env.POST_COLLECTION_NAME || "",
   USER_COLLECTION_NAME: process.env.USER_COLLECTION_NAME || "",
-  COMMENT_COLLECTION_NAME: process.env.COMMENT_COLLECRION_NAME || "",
+  COMMENT_COLLECTION_NAME: process.env.COMMENT_COLLECTION_NAME || "",
   DB_NAME: process.env.DB_NAME || "",
-  JWT_SECRET_KEY: process.env.SECRET_KEY || "",
+  JWT_SECRET_KEY: process.env.JWT_SECRET_KEY || ""
 
   // ADMIN: envValidation(process.env.ADMIN) ? process.env.ADMIN : "",
   // MONGO_URL: process.env.MONGO_URL || "mongodb://0.0.0.0:27017",

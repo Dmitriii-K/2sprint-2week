@@ -1,3 +1,5 @@
+import { OutputErrorsType } from "./output-errors-type";
+
 export enum SortDirection {
   asc,
   desc,
@@ -15,4 +17,18 @@ export type BlgId = {
 
 export type ComId = {
   id: string;
+}
+
+export enum resultStatus {
+  Success = "Success",
+  NotFound = "NotFound",
+  Forbidden = "Forbidden",
+  Unautgorized = "Unauthorized",
+  BadRequest = "BedRequest"
+}
+
+export type Result<T = null> = {
+  status: resultStatus;
+  errorMessage?: OutputErrorsType;
+  data: T
 }

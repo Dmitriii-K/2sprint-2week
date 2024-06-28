@@ -21,7 +21,7 @@ export const commentsValidation = [
   .not()
   .isEmpty()
   .isLength({min: 20, max: 300 })
-  .withMessage("content hav incorrect values"),
+  .withMessage("content has incorrect values"),
 ];
 
 export const authCheckValidation = [
@@ -238,13 +238,14 @@ if(!req.headers.authorization) {
   const payload = await jwtService.getUserIdByToken(token);
   if(!payload) return res.sendStatus(401);
 
-  const user : WithId<UserDBModel> | null= await userCollection.findOne({ _id : new ObjectId(payload.userId)}); // todo вынести в репо
+  const user : WithId<UserDBModel> | null= await userCollection.findOne({ _id : new ObjectId(payload.userId)}); 
   if(user) {
+    console.log(user);
     req.user._id = user._id;
     next();
     return
   } else {
-    return res.status(401).json({});
+    return res.status(403).json({});
   }
 };
 

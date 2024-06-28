@@ -20,19 +20,25 @@ export const authUser = async (
     if (!authUser) {
       res.status(401).json({ errorsMessages: [{field: 'user', message: 'user not found'}] });
     } else {
-      const{ token: accessToken } = await jwtService.generateToken(authUser);
-      res.status(200).json({accessToken});
-    };
-  const isCorrect = await bcrypt.compare( password, authUser?.password);
-    if(isCorrect) {
-      res.sendStatus(204);
-    } else {
-      res.status(401).json({ errorsMessages: [{field: 'password and login', message: 'password or login is wrong'}] });
-    }
+      const isCorrect = await bcrypt.compare( password, authUser?.password);
+      if(isCorrect) {
+        const{ token: accessToken } = await jwtService.generateToken(authUser);
+        res.status(200).json({accessToken});
+        return;
+      } else {
+        res.status(401).json({ errorsMessages: [{field: 'password and login', message: 'password or login is wrong'}] });
+      }
+  };
+
   } catch (error) {
     console.log(error);
   }
 };
+
+
+// const{ token: accessToken } = await jwtService.generateToken(authUser);
+// res.status(200).json({accessToken});
+
 
 200;!
 400;
